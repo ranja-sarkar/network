@@ -1,0 +1,4 @@
+
+pandas==1.2.4
+pyvis==0.1.9
+networkx==2.4
