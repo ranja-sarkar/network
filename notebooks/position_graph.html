@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 700px;
+            height: 500px;
+            background-color: white;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "red", "font": {"color": "black"}, "id": "Data Scientist", "label": "Data Scientist", "shape": "dot", "size": 14, "title": "\u003cb\u003eData Scientist\u003c/b\u003e - 7"}, {"font": {"color": "black"}, "id": "root", "label": "root", "shape": "dot", "size": 10}, {"color": "red", "font": {"color": "black"}, "id": "Software Engineer", "label": "Software Engineer", "shape": "dot", "size": 6, "title": "\u003cb\u003eSoftware Engineer\u003c/b\u003e - 3"}, {"color": "red", "font": {"color": "black"}, "id": "IT Specialist ", "label": "IT Specialist ", "shape": "dot", "size": 4, "title": "\u003cb\u003eIT Specialist \u003c/b\u003e - 2"}, {"color": "red", "font": {"color": "black"}, "id": "Machine Learning Engineer", "label": "Machine Learning Engineer", "shape": "dot", "size": 4, "title": "\u003cb\u003eMachine Learning Engineer\u003c/b\u003e - 2"}, {"color": "red", "font": {"color": "black"}, "id": "Data Science Intern", "label": "Data Science Intern", "shape": "dot", "size": 4, "title": "\u003cb\u003eData Science Intern\u003c/b\u003e - 2"}, {"color": "red", "font": {"color": "black"}, "id": "Talent Acquisition Specialist", "label": "Talent Acquisition Specialist", "shape": "dot", "size": 2, "title": "\u003cb\u003eTalent Acquisition Specialist\u003c/b\u003e - 1"}, {"color": "red", "font": {"color": "black"}, "id": "Assistant Manager - R\u0026D", "label": "Assistant Manager - R\u0026D", "shape": "dot", "size": 2, "title": "\u003cb\u003eAssistant Manager - R\u0026D\u003c/b\u003e - 1"}, {"color": "red", "font": {"color": "black"}, "id": "Senior Software Engineer", "label": "Senior Software Engineer", "shape": "dot", "size": 2, "title": "\u003cb\u003eSenior Software Engineer\u003c/b\u003e - 1"}, {"color": "red", "font": {"color": "black"}, "id": "Web Developer", "label": "Web Developer", "shape": "dot", "size": 2, "title": "\u003cb\u003eWeb Developer\u003c/b\u003e - 1"}, {"color": "red", "font": {"color": "black"}, "id": "Territory Sales Officer", "label": "Territory Sales Officer", "shape": "dot", "size": 2, "title": "\u003cb\u003eTerritory Sales Officer\u003c/b\u003e - 1"}, {"color": "red", "font": {"color": "black"}, "id": "Python Developer Intern", "label": "Python Developer Intern", "shape": "dot", "size": 2, "title": "\u003cb\u003ePython Developer Intern\u003c/b\u003e - 1"}, {"color": "red", "font": {"color": "black"}, "id": "Senior Analyst", "label": "Senior Analyst", "shape": "dot", "size": 2, "title": "\u003cb\u003eSenior Analyst\u003c/b\u003e - 1"}, {"color": "red", "font": {"color": "black"}, "id": "Sr. Consultant", "label": "Sr. Consultant", "shape": "dot", "size": 2, "title": "\u003cb\u003eSr. Consultant\u003c/b\u003e - 1"}]);
+        edges = new vis.DataSet([{"color": "grey", "from": "Data Scientist", "to": "root", "weight": 1}, {"color": "grey", "from": "root", "to": "Software Engineer", "weight": 1}, {"color": "grey", "from": "root", "to": "IT Specialist ", "weight": 1}, {"color": "grey", "from": "root", "to": "Machine Learning Engineer", "weight": 1}, {"color": "grey", "from": "root", "to": "Data Science Intern", "weight": 1}, {"color": "grey", "from": "root", "to": "Talent Acquisition Specialist", "weight": 1}, {"color": "grey", "from": "root", "to": "Assistant Manager - R\u0026D", "weight": 1}, {"color": "grey", "from": "root", "to": "Senior Software Engineer", "weight": 1}, {"color": "grey", "from": "root", "to": "Web Developer", "weight": 1}, {"color": "grey", "from": "root", "to": "Territory Sales Officer", "weight": 1}, {"color": "grey", "from": "root", "to": "Python Developer Intern", "weight": 1}, {"color": "grey", "from": "root", "to": "Senior Analyst", "weight": 1}, {"color": "grey", "from": "root", "to": "Sr. Consultant", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "hierarchicalRepulsion": {
+            "centralGravity": 0.0,
+            "damping": 0.09,
+            "nodeDistance": 120,
+            "springConstant": 0.01,
+            "springLength": 100
+        },
+        "solver": "hierarchicalRepulsion",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
